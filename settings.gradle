@@ -1,0 +1,3 @@
+rootProject.name='AppUpdateDemo'
+include ':app'
+include ':appupdate'
