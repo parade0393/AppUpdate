@@ -3,6 +3,7 @@ package com.sanzhi.appupdate.util;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 /***
  *author: parade岁月
@@ -31,11 +32,11 @@ public class VersionUtil {
      * 检查应用版本是否是线上最新的
      * @param context context
      * @param onLineVersion  线上应用的版本
-     * @return true 最新，应用不需要跟新  false应用需要更新
+     * @return true 需要更新  false不需要更新
      */
     public static boolean checkNewVersion(Context context, String onLineVersion){
         String buildVersion = getVersionName(context);
-        if (buildVersion.equals(onLineVersion)) return false;
+        if (buildVersion.equals(onLineVersion)) return false;//最新,不需要更新
         String[] buildVersionArray = buildVersion.split("\\.");
         String[] onLineVersionArray = onLineVersion.split("\\.");
 
@@ -53,9 +54,29 @@ public class VersionUtil {
         if (diff == 0){
             //在最小长度内是一致的
             //在最小长度内一致，则比较长度大的版本，如果长度大的是线上版本，则需要更新，反之，则不需要
-            return buildVersion.length() > minLen;
+            if (onLineVersionArray.length > minLen){
+                //线上的数组长
+                boolean flag = false;
+                for (int i = minLen; i < onLineVersionArray.length; i++) {
+                    if (!"0".equals(onLineVersionArray[i])){
+                        flag = true;//如果线上的版本数组长，且多余的部分有不是0，线上的版本较新(需要更新)，需要重置标志位
+                        break;
+                    }
+                }
+                if (!flag) {
+                    //相同位数内一致且线上数组长且多余的全是0，不需要更新
+                    return false;
+                }else {
+                    //相同位数内一致且线上数组长且不全是0，需要更新
+                    return true;//需要更新
+                }
+            }else {
+                //相同位数内一致且本地版本数组长，肯定不需要更新
+                return false;
+            }
+
         }else {
-            //本地的版本<线上的版本，需要更新
+            //相同位数内不一致且 本地的版本<线上的版本，需要更新
             return diff < 0;
         }
     }

@@ -3,8 +3,17 @@ package com.sanzhi.appupdatedemo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 
 import com.sanzhi.appupdate.AppUpdate;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkUpdate() {
+        Log.d("updateDemo","onResume");
+        new AppUpdate(this)
+                .setAppId("nsibdczem16vuj5y")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .update();
 
     }
 }

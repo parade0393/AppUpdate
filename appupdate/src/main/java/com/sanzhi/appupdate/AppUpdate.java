@@ -1,7 +1,13 @@
 package com.sanzhi.appupdate;
 
 import android.content.Context;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
 
+
+import com.azhon.appupdate.manager.DownloadManager;
+import com.sanzhi.appupdate.util.AuxiliaryUtil;
 import com.sanzhi.appupdate.util.VersionUtil;
 
 import org.json.JSONException;
@@ -62,6 +68,7 @@ public class AppUpdate {
     }
 
     private void checkUpdate() {
+        Log.d("updateDemo","checkUpdate:thread:::"+Thread.currentThread().getName());
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -75,13 +82,15 @@ public class AppUpdate {
                     connection.setConnectTimeout(10000);
                     InputStream inputStream = connection.getInputStream();//真正发起http请求
                     reader = new BufferedReader(new InputStreamReader(inputStream));
-                    StringBuilder response = new StringBuilder();
+                    final StringBuilder response = new StringBuilder();
                     String line;
                     while ((line = reader.readLine()) != null){
                         response.append(line);
                     }
+
                     if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
                         showResponse(response.toString());
+
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -98,19 +107,44 @@ public class AppUpdate {
                     }
                 }
             }
-        });
+        }).start();
     }
 
-    private void showResponse(String response) {
-        try {
-            JSONObject jsonObject = new JSONObject(response);
-            String newest_version = jsonObject.getString("newest_version");
-            String apk_url = jsonObject.getString("apk_url");
-            if (VersionUtil.checkNewVersion(context,newest_version)){
-
+    private void showResponse(final String response) {
+        new Handler(context.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String newest_version = jsonObject.getString("newest_version");
+                    final String apk_url = jsonObject.getString("apk_url");
+                    if (VersionUtil.checkNewVersion(context,newest_version)){
+                        //需要更新
+                        CommonDialog dialog = new CommonDialog(context, R.layout.dialog_update)
+                                .setListenItem(new int[]{R.id.btn_cancel,R.id.btn_confirm})
+                                .setListener(new CommonDialog.OnAllItemClickListener() {
+                                    @Override
+                                    public void handleClick(CommonDialog commonDialog, View view) {
+                                        int id = view.getId();
+                                        if (id == R.id.btn_cancel) {
+                                            commonDialog.dismiss();
+                                        } else if (id == R.id.btn_confirm) {
+                                            commonDialog.dismiss();
+                                            DownloadManager.getInstance(context)
+                                                    .setApkName(AuxiliaryUtil.getFileName(apk_url))
+                                                    .setApkUrl("http://version-server.sanzhisoft.com/" + apk_url)
+                                                    .setSmallIcon(smallIcon)
+                                                    .download();
+                                        }
+                                    }
+                                });
+                        dialog.show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        });
+
     }
 }
