@@ -27,8 +27,6 @@ import java.net.URL;
  */
 public class AppUpdate {
 
-    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 1;
-
     private Context context;
     /**
      * 通知栏的图标 资源路径
@@ -54,16 +52,6 @@ public class AppUpdate {
     }
 
     public void update() {
-        /*if (Build.VERSION.SDK_INT >= 23) {
-            int permission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (permission != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
-            } else {
-                checkUpdate();
-            }
-        } else {
-            checkUpdate();
-        }*/
         checkUpdate();
     }
 
