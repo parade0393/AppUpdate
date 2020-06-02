@@ -8,8 +8,8 @@ ext {
 
     libraryDescription = 'self app updata library' // description of library
 
-    siteUrl = 'https://parade0393.coding.net/p/appupdate'    // git repo url
-    gitUrl = 'https://e.coding.net/parade0393/appupdate.git' // git repo vcs url
+    siteUrl = 'https://github.com/parade0393/AppUpdate'    // git repo url
+    gitUrl = 'https://github.com/parade0393/AppUpdate.git' // git repo vcs url
 
     libraryVersion = '1.0.0'      // library version
 
