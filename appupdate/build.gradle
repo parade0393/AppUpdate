@@ -1,4 +1,29 @@
+ext {
+    bintrayRepo = 'appUpdate' // Repository name
+    bintrayName = 'com.sanzhi.appupdate' // package name
+
+    publishedGroupId = 'com.sanzhi.appupdate'   // this is the ID we want to see in implementation line
+    libraryName = 'appupdate'     // this is the module name of library
+    artifact = 'appupdate'        // this is the artifact we want to see in implementation line
+
+    libraryDescription = 'self app updata library' // description of library
+
+    siteUrl = 'https://parade0393.coding.net/p/appupdate'    // git repo url
+    gitUrl = 'https://e.coding.net/parade0393/appupdate.git' // git repo vcs url
+
+    libraryVersion = '1.0.0'      // library version
+
+    developerId = 'parad0393'                // This is your bintray username
+    developerName = 'parad0393'              // Developer's name
+    developerEmail = 'parade0379@gmail.com'                // Developer's email
+
+    licenseName = 'The Apache Software License, Version 2.0'  // for example, The Apache Software License, Version 2.0
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'   // for example, http://www.apache.org/licenses/LICENSE-2.0.txt
+    allLicenses = ["Apache-2.0"]    // array of licenses, for example, ["Apache-2.0"]
+}
+
 apply plugin: 'com.android.library'
+apply from: 'publish.gradle'
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
@@ -20,7 +45,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
