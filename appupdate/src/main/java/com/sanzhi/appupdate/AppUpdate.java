@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 
@@ -42,12 +43,12 @@ public class AppUpdate {
     private String titleText = "温馨提示";
     /** 标题文字大小 */
     private float titleSize = 17;
-    private int titleColor = 0x000000;
+    private int titleColor = 0xff000000;
     /** 弹窗内容 */
     private String contentText = "有新版本,请更新";
     /** 内容文字大小 */
     private float contentSize = 13;
-    private int contentColor = 0x9c9c9c;
+    private int contentColor = 0xff9c9c9c;
     /** 确定按钮背景资源 */
     private int positionBtnResId = R.drawable.btn_bac;
     /** 确定按钮背景颜色 */
@@ -55,7 +56,7 @@ public class AppUpdate {
     /** 确定按钮文本 */
     private String positionBtnText = "更新";
     /** 确定按钮文字颜色 */
-    private int positionBtnTextColor = 0xffffff;
+    private int positionBtnTextColor = 0xffffffff;
     /** 确定按钮文字大小 */
     private float positionBtnTextSize = 13;
     /** 取消按钮背景资源 */
@@ -65,7 +66,7 @@ public class AppUpdate {
     /** 取消按钮文本 */
     private String negativeBtnText = "取消";
     /** 取消按钮文字颜色 */
-    private int negativeBtnTextColor = 0x9c9c9c;
+    private int negativeBtnTextColor = 0xff9c9c9c;
     /** 取消按钮文字大小 */
     private float negativeBtnTextSize = 13;
 
@@ -163,7 +164,6 @@ public class AppUpdate {
     }
 
     private void checkUpdate() {
-        Log.d("updateDemo","checkUpdate:thread:::"+Thread.currentThread().getName());
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -244,29 +244,33 @@ public class AppUpdate {
                         content.setText(contentText);
                         content.setTextSize(TypedValue.COMPLEX_UNIT_PX, sp2px(contentSize));
                         content.setTextColor(contentColor);
-                        //确定按钮设置
+                        //取消按钮设置
                         TextView negativeBtn = dialog.findViewById(R.id.btnNegativeUpdate);
                         negativeBtn.setText(negativeBtnText);
                         negativeBtn.setTextSize(negativeBtnTextSize);
                         negativeBtn.setTextColor(negativeBtnTextColor);
                         if (negativeBtnBgColor != 0){
-                            //如果设置了确定按钮的背景颜色
+                            //如果设置了取消按钮的背景颜色
                             negativeBtn.setBackgroundColor(negativeBtnBgColor);
                         }else {
                             negativeBtn.setBackgroundResource(negativeBtnResId);
                         }
 
+                        //确定按钮
                         TextView positiveBtn = dialog.findViewById(R.id.btnPositiveUpdate);
                         positiveBtn.setText(positionBtnText);
                         positiveBtn.setTextColor(positionBtnTextColor);
                         positiveBtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, sp2px(positionBtnTextSize));
                         if (positionBtnBgColor != 0){
-                            //如果设置了取消按钮的背景颜色
+                            //如果设置了确定按钮的背景颜色
                             positiveBtn.setBackgroundColor(positionBtnBgColor);
                         }else {
                             positiveBtn.setBackgroundResource(positionBtnResId);
                         }
-
+                        Window window = dialog.getWindow();
+                        if (window != null){
+                            window.setDimAmount(0f);
+                        }
                         dialog.show();
                     }
                 } catch (JSONException e) {

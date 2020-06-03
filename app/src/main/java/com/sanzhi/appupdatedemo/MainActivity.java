@@ -34,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private void checkUpdate() {
         Log.d("updateDemo","onResume");
         new AppUpdate(this)
-                .setAppId("nsibdczem16vuj5y")
+                .setTitle("标题")
+                .setTitleSize(17)
+                .setAppId("nfy7qt3618gpuhv2")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .update();
 
