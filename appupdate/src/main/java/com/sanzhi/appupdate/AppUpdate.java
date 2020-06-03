@@ -1,10 +1,15 @@
 package com.sanzhi.appupdate;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
 
+
+import androidx.annotation.IdRes;
 
 import com.azhon.appupdate.manager.DownloadManager;
 import com.sanzhi.appupdate.util.AuxiliaryUtil;
@@ -33,6 +38,36 @@ public class AppUpdate {
      */
     private int smallIcon = -1;
     private String url;
+    /** 弹窗标题 */
+    private String titleText = "温馨提示";
+    /** 标题文字大小 */
+    private float titleSize = 17;
+    private int titleColor = 0x000000;
+    /** 弹窗内容 */
+    private String contentText = "有新版本,请更新";
+    /** 内容文字大小 */
+    private float contentSize = 13;
+    private int contentColor = 0x9c9c9c;
+    /** 确定按钮背景资源 */
+    private int positionBtnResId = R.drawable.btn_bac;
+    /** 确定按钮背景颜色 */
+    private int positionBtnBgColor;
+    /** 确定按钮文本 */
+    private String positionBtnText = "更新";
+    /** 确定按钮文字颜色 */
+    private int positionBtnTextColor = 0xffffff;
+    /** 确定按钮文字大小 */
+    private float positionBtnTextSize = 13;
+    /** 取消按钮背景资源 */
+    private int negativeBtnResId = R.drawable.btn_bac_gray;
+    /** 取消按钮背景颜色 */
+    private int negativeBtnBgColor;
+    /** 取消按钮文本 */
+    private String negativeBtnText = "取消";
+    /** 取消按钮文字颜色 */
+    private int negativeBtnTextColor = 0x9c9c9c;
+    /** 取消按钮文字大小 */
+    private float negativeBtnTextSize = 13;
 
     public AppUpdate() {
     }
@@ -50,6 +85,78 @@ public class AppUpdate {
         this.smallIcon = smallIcon;
         return this;
     }
+
+    public AppUpdate setTitle(String title){
+        this.titleText = title;
+        return this;
+    }
+
+    public AppUpdate setTitleSize(float titleSize){
+        this.titleSize = titleSize;
+        return this;
+    }
+
+    public AppUpdate setContent(String content){
+        this.contentText = content;
+        return this;
+    }
+
+    public AppUpdate setContentSize(float contentSize){
+        this.contentSize = contentSize;
+        return this;
+    }
+
+    public AppUpdate setPositionBtnResId(@IdRes int resId){
+        this.positionBtnResId = resId;
+        return this;
+    }
+
+    public AppUpdate setPositionBtnBgColor(int positionBtnBgColor){
+        this.positionBtnBgColor = positionBtnBgColor;
+        return this;
+    }
+
+    public AppUpdate setPositionText(String positionBtnText){
+        this.positionBtnText = positionBtnText;
+        return this;
+    }
+
+    public AppUpdate setPositionBtnTextColor(int positionBtnTextColor){
+        this.positionBtnBgColor = positionBtnTextColor;
+        return this;
+    }
+
+    public AppUpdate setPositionBtnTextSize(float spValue){
+        this.positionBtnTextSize = spValue;
+        return this;
+    }
+
+    public AppUpdate setNegativeBtnResId(@IdRes int negativeBtnResId){
+        this.negativeBtnResId = negativeBtnResId;
+        return this;
+    }
+
+    public AppUpdate setNegativeBtnBgColor(int negativeBtnBgColor){
+        this.negativeBtnBgColor = negativeBtnBgColor;
+        return this;
+    }
+
+    public AppUpdate setNegativeBtnTextColor(int negativeBtnTextColor){
+        this.negativeBtnTextColor = negativeBtnTextColor;
+        return this;
+    }
+
+    public AppUpdate setNegativeBtnText(String text){
+        this.negativeBtnText = text;
+        return this;
+    }
+
+    public AppUpdate setNegativeBtnTextSize(float spValue){
+        this.negativeBtnTextSize = spValue;
+        return this;
+    }
+
+
 
     public void update() {
         checkUpdate();
@@ -109,14 +216,14 @@ public class AppUpdate {
                     if (VersionUtil.checkNewVersion(context,newest_version)){
                         //需要更新
                         CommonDialog dialog = new CommonDialog(context, R.layout.dialog_update)
-                                .setListenItem(new int[]{R.id.btn_cancel,R.id.btn_confirm})
+                                .setListenItem(new int[]{R.id.btnNegativeUpdate,R.id.btnPositiveUpdate})
                                 .setListener(new CommonDialog.OnAllItemClickListener() {
                                     @Override
                                     public void handleClick(CommonDialog commonDialog, View view) {
                                         int id = view.getId();
-                                        if (id == R.id.btn_cancel) {
+                                        if (id == R.id.btnNegativeUpdate) {
                                             commonDialog.dismiss();
-                                        } else if (id == R.id.btn_confirm) {
+                                        } else if (id == R.id.btnPositiveUpdate) {
                                             commonDialog.dismiss();
                                             DownloadManager.getInstance(context)
                                                     .setApkName(AuxiliaryUtil.getFileName(apk_url))
@@ -126,6 +233,40 @@ public class AppUpdate {
                                         }
                                     }
                                 });
+                        //标题设置
+                        TextView title = dialog.findViewById(R.id.tvTitleUpdate);
+                        title.setText(titleText);
+                        title.setTextColor(titleColor);
+                        title.setTextSize(TypedValue.COMPLEX_UNIT_PX,sp2px(titleSize));
+
+                        //内容设置
+                        TextView content = dialog.findViewById(R.id.tvContentUpdate);
+                        content.setText(contentText);
+                        content.setTextSize(TypedValue.COMPLEX_UNIT_PX, sp2px(contentSize));
+                        content.setTextColor(contentColor);
+                        //确定按钮设置
+                        TextView negativeBtn = dialog.findViewById(R.id.btnNegativeUpdate);
+                        negativeBtn.setText(negativeBtnText);
+                        negativeBtn.setTextSize(negativeBtnTextSize);
+                        negativeBtn.setTextColor(negativeBtnTextColor);
+                        if (negativeBtnBgColor != 0){
+                            //如果设置了确定按钮的背景颜色
+                            negativeBtn.setBackgroundColor(negativeBtnBgColor);
+                        }else {
+                            negativeBtn.setBackgroundResource(negativeBtnResId);
+                        }
+
+                        TextView positiveBtn = dialog.findViewById(R.id.btnPositiveUpdate);
+                        positiveBtn.setText(positionBtnText);
+                        positiveBtn.setTextColor(positionBtnTextColor);
+                        positiveBtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, sp2px(positionBtnTextSize));
+                        if (positionBtnBgColor != 0){
+                            //如果设置了取消按钮的背景颜色
+                            positiveBtn.setBackgroundColor(positionBtnBgColor);
+                        }else {
+                            positiveBtn.setBackgroundResource(positionBtnResId);
+                        }
+
                         dialog.show();
                     }
                 } catch (JSONException e) {
@@ -134,5 +275,10 @@ public class AppUpdate {
             }
         });
 
+    }
+
+    private int sp2px(final float spValue) {
+        final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
     }
 }
