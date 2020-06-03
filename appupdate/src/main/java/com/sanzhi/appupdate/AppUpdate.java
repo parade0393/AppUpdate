@@ -97,6 +97,11 @@ public class AppUpdate {
         return this;
     }
 
+    public AppUpdate setTitleColor(int color){
+        this.titleColor = color;
+        return this;
+    }
+
     public AppUpdate setContent(String content){
         this.contentText = content;
         return this;
@@ -104,6 +109,11 @@ public class AppUpdate {
 
     public AppUpdate setContentSize(float contentSize){
         this.contentSize = contentSize;
+        return this;
+    }
+
+    public AppUpdate setContentColor(int color){
+        this.contentColor = color;
         return this;
     }
 
