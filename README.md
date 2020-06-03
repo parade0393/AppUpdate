@@ -1,5 +1,5 @@
-1. 引入方式
-   gradle `implementation 'com.sanzhi.appupdate:appupdate:1.0.0'`
+1. 引入方式 gradle `implementation
+   'com.sanzhi.appupdate:appupdate:1.0.3'`
 
 2. 使用方式
 
