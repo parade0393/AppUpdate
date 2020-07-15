@@ -6,12 +6,12 @@ ext {
     libraryName = 'appupdate'     // this is the module name of library
     artifact = 'appupdate'        // this is the artifact we want to see in implementation line
 
-    libraryDescription = 'delete the extra setting' // description of library 每一个版本的说明
+    libraryDescription = 'optimization logic of dialog show' // description of library 每一个版本的说明
 
     siteUrl = 'https://github.com/parade0393/AppUpdate'    // git repo url
     gitUrl = 'https://github.com/parade0393/AppUpdate.git' // git repo vcs url
 
-    libraryVersion = '1.0.4'      // library version
+    libraryVersion = '1.0.5'      // library version
 
     developerId = 'parad0393'                // This is your bintray username
     developerName = 'parad0393'              // Developer's name

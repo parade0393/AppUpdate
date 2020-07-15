@@ -232,9 +232,13 @@ public class AppUpdate {
                                     public void handleClick(CommonDialog commonDialog, View view) {
                                         int id = view.getId();
                                         if (id == R.id.btnNegativeUpdate) {
-                                            commonDialog.dismiss();
+                                            if (commonDialog.isShowing()){
+                                                commonDialog.dismiss();
+                                            }
                                         } else if (id == R.id.btnPositiveUpdate) {
-                                            commonDialog.dismiss();
+                                            if (commonDialog.isShowing()){
+                                                commonDialog.dismiss();
+                                            }
                                             DownloadManager.getInstance(context)
                                                     .setApkName(AuxiliaryUtil.getFileName(apk_url))
                                                     .setApkUrl("http://version-server.sanzhisoft.com/" + apk_url)
@@ -281,7 +285,10 @@ public class AppUpdate {
                         if (window != null){
                             window.setDimAmount(0f);
                         }
-                        dialog.show();
+                        if (!dialog.isShowing()){
+                            //没有在显示才去显示
+                            dialog.show();
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
