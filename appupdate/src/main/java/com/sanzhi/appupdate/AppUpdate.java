@@ -281,10 +281,6 @@ public class AppUpdate {
                         }else {
                             positiveBtn.setBackgroundResource(positionBtnResId);
                         }
-                        Window window = dialog.getWindow();
-                        if (window != null){
-                            window.setDimAmount(0f);
-                        }
                         if (!dialog.isShowing()){
                             //没有在显示才去显示
                             dialog.show();
