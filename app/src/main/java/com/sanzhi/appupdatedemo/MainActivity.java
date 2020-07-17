@@ -22,18 +22,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        checkUpdate();
     }
 
     @Override
     protected void onResume() {
-        checkUpdate();
         super.onResume();
+        Log.d("parade", "onResume: checkUpdate");
+        checkUpdate();
     }
 
     private void checkUpdate() {
         Log.d("updateDemo","onResume");
-        new AppUpdate(this)
+        AppUpdate.getInstance(this)
                 .setTitle("标题")
                 .setTitleSize(17)
                 .setAppId("nfy7qt3618gpuhv2")

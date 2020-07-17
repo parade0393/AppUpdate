@@ -31,9 +31,16 @@ import java.net.URL;
  * @date: 2020/6/1 11:32
  * @description app更新
  */
-public class AppUpdate {
+public class AppUpdate implements CommonDialog.OnAllItemClickListener {
 
+    private static AppUpdate appUpdate;
     private Context context;
+    private CommonDialog dialog;
+    private String apk_url;
+    private TextView title;
+    private TextView content;
+    private TextView negativeBtn;
+    private TextView positiveBtn;
     /**
      * 通知栏的图标 资源路径
      */
@@ -70,11 +77,22 @@ public class AppUpdate {
     /** 取消按钮文字大小 */
     private float negativeBtnTextSize = 13;
 
-    public AppUpdate() {
+    private AppUpdate(Context context){
+        this.context = context.getApplicationContext();
+        dialog = new CommonDialog(context, R.layout.dialog_update)
+                .setListenItem(new int[]{R.id.btnNegativeUpdate,R.id.btnPositiveUpdate})
+                .setListener(this);
+        title = dialog.findViewById(R.id.tvTitleUpdate);
+        content = dialog.findViewById(R.id.tvContentUpdate);
+        negativeBtn = dialog.findViewById(R.id.btnNegativeUpdate);
+        positiveBtn = dialog.findViewById(R.id.btnPositiveUpdate);
     }
 
-    public AppUpdate(Context context) {
-        this.context = context;
+    public static AppUpdate getInstance(Context context){
+        if (appUpdate == null){
+            appUpdate = new AppUpdate(context);
+        }
+        return appUpdate;
     }
 
     public AppUpdate setAppId(String appId) {
@@ -222,44 +240,21 @@ public class AppUpdate {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     String newest_version = jsonObject.getString("newest_version");
-                    final String apk_url = jsonObject.getString("apk_url");
+                    apk_url = jsonObject.getString("apk_url");
                     if (VersionUtil.checkNewVersion(context,newest_version)){
-                        //需要更新
-                        CommonDialog dialog = new CommonDialog(context, R.layout.dialog_update)
-                                .setListenItem(new int[]{R.id.btnNegativeUpdate,R.id.btnPositiveUpdate})
-                                .setListener(new CommonDialog.OnAllItemClickListener() {
-                                    @Override
-                                    public void handleClick(CommonDialog commonDialog, View view) {
-                                        int id = view.getId();
-                                        if (id == R.id.btnNegativeUpdate) {
-                                            if (commonDialog.isShowing()){
-                                                commonDialog.dismiss();
-                                            }
-                                        } else if (id == R.id.btnPositiveUpdate) {
-                                            if (commonDialog.isShowing()){
-                                                commonDialog.dismiss();
-                                            }
-                                            DownloadManager.getInstance(context)
-                                                    .setApkName(AuxiliaryUtil.getFileName(apk_url))
-                                                    .setApkUrl("http://version-server.sanzhisoft.com/" + apk_url)
-                                                    .setSmallIcon(smallIcon)
-                                                    .download();
-                                        }
-                                    }
-                                });
                         //标题设置
-                        TextView title = dialog.findViewById(R.id.tvTitleUpdate);
                         title.setText(titleText);
                         title.setTextColor(titleColor);
                         title.setTextSize(TypedValue.COMPLEX_UNIT_PX,sp2px(titleSize));
 
                         //内容设置
-                        TextView content = dialog.findViewById(R.id.tvContentUpdate);
+
                         content.setText(contentText);
                         content.setTextSize(TypedValue.COMPLEX_UNIT_PX, sp2px(contentSize));
                         content.setTextColor(contentColor);
+
                         //取消按钮设置
-                        TextView negativeBtn = dialog.findViewById(R.id.btnNegativeUpdate);
+
                         negativeBtn.setText(negativeBtnText);
                         negativeBtn.setTextSize(negativeBtnTextSize);
                         negativeBtn.setTextColor(negativeBtnTextColor);
@@ -271,7 +266,6 @@ public class AppUpdate {
                         }
 
                         //确定按钮
-                        TextView positiveBtn = dialog.findViewById(R.id.btnPositiveUpdate);
                         positiveBtn.setText(positionBtnText);
                         positiveBtn.setTextColor(positionBtnTextColor);
                         positiveBtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, sp2px(positionBtnTextSize));
@@ -297,5 +291,24 @@ public class AppUpdate {
     private int sp2px(final float spValue) {
         final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
+    }
+
+    @Override
+    public void handleClick(CommonDialog commonDialog, View view) {
+        int id = view.getId();
+        if (id == R.id.btnNegativeUpdate) {
+            if (commonDialog.isShowing()){
+                commonDialog.dismiss();
+            }
+        } else if (id == R.id.btnPositiveUpdate) {
+            if (commonDialog.isShowing()){
+                commonDialog.dismiss();
+            }
+            DownloadManager.getInstance(context)
+                    .setApkName(AuxiliaryUtil.getFileName(apk_url))
+                    .setApkUrl("http://version-server.sanzhisoft.com/" + apk_url)
+                    .setSmallIcon(smallIcon)
+                    .download();
+        }
     }
 }

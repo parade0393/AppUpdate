@@ -1,13 +1,15 @@
 1. 引入方式 gradle `implementation
-   'com.sanzhi.appupdate:appupdate:1.0.5'`
+   'com.sanzhi.appupdate:appupdate:1.0.6'`
 
 2. 使用方式--不需要申请存储卡权限
 
    ```java
-   new AppUpdate(this)//上下文context
-           .setAppId("nsibdczem16vuj5y")//APP_ID
-           .setSmallIcon(R.mipmap.ic_launcher)//通知栏图标
-           .update();//开始检查更新下载
+  AppUpdate.getInstance(this)//上下文你
+                  .setTitle("标题")//标题
+                  .setTitleSize(17)//标题字体大小
+                  .setAppId("nfy7qt3618gpuhv2")//appId
+                  .setSmallIcon(R.mipmap.ic_launcher)//通知栏图标 必传
+                  .update();//更新
    ```
 3. 额外方法
 
