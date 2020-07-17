@@ -4,12 +4,12 @@
 2. 使用方式--不需要申请存储卡权限
 
    ```java
-  AppUpdate.getInstance(this)//上下文你
-                  .setTitle("标题")//标题
-                  .setTitleSize(17)//标题字体大小
-                  .setAppId("nfy7qt3618gpuhv2")//appId
-                  .setSmallIcon(R.mipmap.ic_launcher)//通知栏图标 必传
-                  .update();//更新
+      AppUpdate.getInstance(this)//上下文你
+                      .setTitle("标题")//标题
+                      .setTitleSize(17)//标题字体大小
+                      .setAppId("nfy7qt3618gpuhv2")//appId
+                      .setSmallIcon(R.mipmap.ic_launcher)//通知栏图标 必传
+                      .update();//更新
    ```
 3. 额外方法
 
