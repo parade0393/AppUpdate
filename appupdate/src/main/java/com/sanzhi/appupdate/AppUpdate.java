@@ -2,6 +2,7 @@ package com.sanzhi.appupdate;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
@@ -31,61 +32,27 @@ import java.net.URL;
  * @date: 2020/6/1 11:32
  * @description app更新
  */
-public class AppUpdate implements CommonDialog.OnAllItemClickListener {
+public class AppUpdate implements MessageDialog.OnPositionBtnClickListener, MessageDialog.OnNegativeBtnClickListener {
 
     private static AppUpdate appUpdate;
     private Context context;
-    private CommonDialog dialog;
     private String apk_url;
-    private TextView title;
-    private TextView content;
-    private TextView negativeBtn;
-    private TextView positiveBtn;
+    private MessageDialog messageDialog;
     /**
      * 通知栏的图标 资源路径
      */
     private int smallIcon = -1;
     private String url;
-    /** 弹窗标题 */
-    private String titleText = "温馨提示";
-    /** 标题文字大小 */
-    private float titleSize = 17;
-    private int titleColor = 0xff000000;
-    /** 弹窗内容 */
-    private String contentText = "有新版本,请更新";
-    /** 内容文字大小 */
-    private float contentSize = 13;
-    private int contentColor = 0xff9c9c9c;
-    /** 确定按钮背景资源 */
-    private int positionBtnResId = R.drawable.btn_bac;
-    /** 确定按钮背景颜色 */
-    private int positionBtnBgColor;
-    /** 确定按钮文本 */
-    private String positionBtnText = "更新";
-    /** 确定按钮文字颜色 */
-    private int positionBtnTextColor = 0xffffffff;
-    /** 确定按钮文字大小 */
-    private float positionBtnTextSize = 13;
-    /** 取消按钮背景资源 */
-    private int negativeBtnResId = R.drawable.btn_bac_gray;
-    /** 取消按钮背景颜色 */
-    private int negativeBtnBgColor;
-    /** 取消按钮文本 */
-    private String negativeBtnText = "取消";
-    /** 取消按钮文字颜色 */
-    private int negativeBtnTextColor = 0xff9c9c9c;
-    /** 取消按钮文字大小 */
-    private float negativeBtnTextSize = 13;
+
 
     private AppUpdate(Context context){
         this.context = context.getApplicationContext();
-        dialog = new CommonDialog(context, R.layout.dialog_update)
-                .setListenItem(new int[]{R.id.btnNegativeUpdate,R.id.btnPositiveUpdate})
-                .setListener(this);
-        title = dialog.findViewById(R.id.tvTitleUpdate);
-        content = dialog.findViewById(R.id.tvContentUpdate);
-        negativeBtn = dialog.findViewById(R.id.btnNegativeUpdate);
-        positiveBtn = dialog.findViewById(R.id.btnPositiveUpdate);
+        messageDialog = MessageDialog.getInstance(context)
+                .setTitle("这是标题")
+                .setContentColor(Color.parseColor("#ff0000"))
+                .setOnPositionBtnClickListener(this)
+                .setOnNegativeBtnClickListener(this)
+                .build();
     }
 
     public static AppUpdate getInstance(Context context){
@@ -106,85 +73,84 @@ public class AppUpdate implements CommonDialog.OnAllItemClickListener {
     }
 
     public AppUpdate setTitle(String title){
-        this.titleText = title;
+      messageDialog.setTitle(title);
         return this;
     }
 
     public AppUpdate setTitleSize(float titleSize){
-        this.titleSize = titleSize;
+        messageDialog.setTitleSize(titleSize);
         return this;
     }
 
     public AppUpdate setTitleColor(int color){
-        this.titleColor = color;
+        messageDialog.setTitleColor(color);
         return this;
     }
 
     public AppUpdate setContent(String content){
-        this.contentText = content;
+        messageDialog.setContent(content);
         return this;
     }
 
     public AppUpdate setContentSize(float contentSize){
-        this.contentSize = contentSize;
+        messageDialog.setContentSize(contentSize);
         return this;
     }
 
     public AppUpdate setContentColor(int color){
-        this.contentColor = color;
+        messageDialog.setContentColor(color);
         return this;
     }
 
     public AppUpdate setPositionBtnResId(@IdRes int resId){
-        this.positionBtnResId = resId;
+        messageDialog.setPositionBtnResId(resId);
         return this;
     }
 
     public AppUpdate setPositionBtnBgColor(int positionBtnBgColor){
-        this.positionBtnBgColor = positionBtnBgColor;
+        messageDialog.setPositionBtnBgColor(positionBtnBgColor);
         return this;
     }
 
     public AppUpdate setPositionText(String positionBtnText){
-        this.positionBtnText = positionBtnText;
+        messageDialog.setPositionText(positionBtnText);
         return this;
     }
 
     public AppUpdate setPositionBtnTextColor(int positionBtnTextColor){
-        this.positionBtnBgColor = positionBtnTextColor;
+        messageDialog.setPositionBtnTextColor(positionBtnTextColor);
         return this;
     }
 
     public AppUpdate setPositionBtnTextSize(float spValue){
-        this.positionBtnTextSize = spValue;
+        messageDialog.setPositionBtnTextSize(spValue);
         return this;
     }
 
     public AppUpdate setNegativeBtnResId(@IdRes int negativeBtnResId){
-        this.negativeBtnResId = negativeBtnResId;
+        messageDialog.setNegativeBtnResId(negativeBtnResId);
         return this;
     }
 
     public AppUpdate setNegativeBtnBgColor(int negativeBtnBgColor){
-        this.negativeBtnBgColor = negativeBtnBgColor;
+        messageDialog.setNegativeBtnBgColor(negativeBtnBgColor);
         return this;
     }
 
     public AppUpdate setNegativeBtnTextColor(int negativeBtnTextColor){
-        this.negativeBtnTextColor = negativeBtnTextColor;
+        messageDialog.setNegativeBtnTextColor(negativeBtnTextColor);
         return this;
     }
 
     public AppUpdate setNegativeBtnText(String text){
-        this.negativeBtnText = text;
+        messageDialog.setNegativeBtnText(text);
         return this;
     }
 
     public AppUpdate setNegativeBtnTextSize(float spValue){
-        this.negativeBtnTextSize = spValue;
+        messageDialog.setNegativeBtnTextSize(spValue);
         return this;
     }
-
 
 
     public void update() {
@@ -242,43 +208,7 @@ public class AppUpdate implements CommonDialog.OnAllItemClickListener {
                     String newest_version = jsonObject.getString("newest_version");
                     apk_url = jsonObject.getString("apk_url");
                     if (VersionUtil.checkNewVersion(context,newest_version)){
-                        //标题设置
-                        title.setText(titleText);
-                        title.setTextColor(titleColor);
-                        title.setTextSize(TypedValue.COMPLEX_UNIT_PX,sp2px(titleSize));
-
-                        //内容设置
-
-                        content.setText(contentText);
-                        content.setTextSize(TypedValue.COMPLEX_UNIT_PX, sp2px(contentSize));
-                        content.setTextColor(contentColor);
-
-                        //取消按钮设置
-
-                        negativeBtn.setText(negativeBtnText);
-                        negativeBtn.setTextSize(negativeBtnTextSize);
-                        negativeBtn.setTextColor(negativeBtnTextColor);
-                        if (negativeBtnBgColor != 0){
-                            //如果设置了取消按钮的背景颜色
-                            negativeBtn.setBackgroundColor(negativeBtnBgColor);
-                        }else {
-                            negativeBtn.setBackgroundResource(negativeBtnResId);
-                        }
-
-                        //确定按钮
-                        positiveBtn.setText(positionBtnText);
-                        positiveBtn.setTextColor(positionBtnTextColor);
-                        positiveBtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, sp2px(positionBtnTextSize));
-                        if (positionBtnBgColor != 0){
-                            //如果设置了确定按钮的背景颜色
-                            positiveBtn.setBackgroundColor(positionBtnBgColor);
-                        }else {
-                            positiveBtn.setBackgroundResource(positionBtnResId);
-                        }
-                        if (!dialog.isShowing()){
-                            //没有在显示才去显示
-                            dialog.show();
-                        }
+                        messageDialog.show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -288,27 +218,18 @@ public class AppUpdate implements CommonDialog.OnAllItemClickListener {
 
     }
 
-    private int sp2px(final float spValue) {
-        final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
+    @Override
+    public void onPositionBtnClick(CommonDialog commonDialog, View view) {
+        messageDialog.dismiss();
+        DownloadManager.getInstance(context)
+                .setApkName(AuxiliaryUtil.getFileName(apk_url))
+                .setApkUrl("http://version-server.sanzhisoft.com/" + apk_url)
+                .setSmallIcon(smallIcon)
+                .download();
     }
 
     @Override
-    public void handleClick(CommonDialog commonDialog, View view) {
-        int id = view.getId();
-        if (id == R.id.btnNegativeUpdate) {
-            if (commonDialog.isShowing()){
-                commonDialog.dismiss();
-            }
-        } else if (id == R.id.btnPositiveUpdate) {
-            if (commonDialog.isShowing()){
-                commonDialog.dismiss();
-            }
-            DownloadManager.getInstance(context)
-                    .setApkName(AuxiliaryUtil.getFileName(apk_url))
-                    .setApkUrl("http://version-server.sanzhisoft.com/" + apk_url)
-                    .setSmallIcon(smallIcon)
-                    .download();
-        }
+    public void onNegativeBtnClick(CommonDialog commonDialog, View view) {
+        messageDialog.dismiss();
     }
 }

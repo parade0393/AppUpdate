@@ -11,7 +11,7 @@ ext {
     siteUrl = 'https://github.com/parade0393/AppUpdate'    // git repo url
     gitUrl = 'https://github.com/parade0393/AppUpdate.git' // git repo vcs url
 
-    libraryVersion = '1.0.6'      // library version
+    libraryVersion = '1.0.7'      // library version
 
     developerId = 'parad0393'                // This is your bintray username
     developerName = 'parad0393'              // Developer's name

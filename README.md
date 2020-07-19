@@ -32,7 +32,7 @@
 | setNegativeBtnTextColor(int negativeBtnTextColor) | 设置取消按钮文本颜色       | 0xff9c9c9c                      |
 | setNegativeBtnTextSize(float spValue)             | 设置取消按钮文本字体大小   | 13sp                            |
 
-4. 更新库附带一个Dialog构建工具
+4. 更新库附带两个个Dialog构建工具
    *  使用方法
 
         ```java
@@ -43,3 +43,13 @@
         commonDialog.getWindow().setDimAmount(0f);//这是原生的方法，可以去掉dialog的遮罩
         commonDialog.show();
         ```
+      ```java
+      message = MessageDialog.getInstance(context)
+                      .setTitle("这是标题")
+                      .setContentColor(Color.parseColor("#ff0000"))
+                      .setOnPositionBtnClickListener(this)
+                      .setOnNegativeBtnClickListener(this)
+                      .build();
+      message.show()
+      //设置控件样式件上述表格
+      ```
