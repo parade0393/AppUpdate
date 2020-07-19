@@ -228,14 +228,13 @@ public class MessageDialog implements CommonDialog.OnAllItemClickListener {
 
     @Override
     public void handleClick(CommonDialog commonDialog, View view) {
+        commonDialog.dismiss();
         if (view.getId() == R.id.btnNegativeUpdate) {
             if (null != negativeBtnClickListener) {
-                dialog.dismiss();
                 negativeBtnClickListener.onNegativeBtnClick(commonDialog, view);
             }
         } else if (view.getId() == R.id.btnPositiveUpdate) {
             if (null != positionBtnClickListener) {
-                dialog.dismiss();
                 positionBtnClickListener.onPositionBtnClick(commonDialog, view);
             }
         }

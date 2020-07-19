@@ -34,19 +34,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MessageDialog.getInstance(MainActivity.this).build()
-                        .setOnPositionBtnClickListener(new MessageDialog.OnPositionBtnClickListener() {
-                            @Override
-                            public void onPositionBtnClick(CommonDialog commonDialog, View view) {
-                                commonDialog.dismiss();
-                            }
-                        })
-                        .setOnNegativeBtnClickListener(new MessageDialog.OnNegativeBtnClickListener() {
-                            @Override
-                            public void onNegativeBtnClick(CommonDialog commonDialog, View view) {
-                                commonDialog.dismiss();
-                                Toast.makeText(MainActivity.this,"文本",Toast.LENGTH_SHORT).show();
-                            }
-                        })
                         .show();
             }
         });
