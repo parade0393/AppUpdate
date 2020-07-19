@@ -22,44 +22,72 @@ public class MessageDialog implements CommonDialog.OnAllItemClickListener {
     private TextView content;
     private TextView negativeBtn;
     private TextView positiveBtn;
-    /** 弹窗标题 */
+    /**
+     * 弹窗标题
+     */
     private String titleText = "温馨提示";
-    /** 标题文字大小 */
+    /**
+     * 标题文字大小
+     */
     private float titleSize = 17;
     private int titleColor = 0xff000000;
-    /** 弹窗内容 */
+    /**
+     * 弹窗内容
+     */
     private String contentText = "有新版本,请更新";
-    /** 内容文字大小 */
+    /**
+     * 内容文字大小
+     */
     private float contentSize = 13;
     private int contentColor = 0xff9c9c9c;
-    /** 确定按钮背景资源 */
+    /**
+     * 确定按钮背景资源
+     */
     private int positionBtnResId = R.drawable.btn_bac;
-    /** 确定按钮背景颜色 */
+    /**
+     * 确定按钮背景颜色
+     */
     private int positionBtnBgColor;
-    /** 确定按钮文本 */
+    /**
+     * 确定按钮文本
+     */
     private String positionBtnText = "更新";
-    /** 确定按钮文字颜色 */
+    /**
+     * 确定按钮文字颜色
+     */
     private int positionBtnTextColor = 0xffffffff;
-    /** 确定按钮文字大小 */
+    /**
+     * 确定按钮文字大小
+     */
     private float positionBtnTextSize = 13;
-    /** 取消按钮背景资源 */
+    /**
+     * 取消按钮背景资源
+     */
     private int negativeBtnResId = R.drawable.btn_bac_gray;
-    /** 取消按钮背景颜色 */
+    /**
+     * 取消按钮背景颜色
+     */
     private int negativeBtnBgColor;
-    /** 取消按钮文本 */
+    /**
+     * 取消按钮文本
+     */
     private String negativeBtnText = "取消";
-    /** 取消按钮文字颜色 */
+    /**
+     * 取消按钮文字颜色
+     */
     private int negativeBtnTextColor = 0xff9c9c9c;
-    /** 取消按钮文字大小 */
+    /**
+     * 取消按钮文字大小
+     */
     private float negativeBtnTextSize = 13;
 
     private OnPositionBtnClickListener positionBtnClickListener;
     private OnNegativeBtnClickListener negativeBtnClickListener;
 
-    private MessageDialog(Context context){
+    private MessageDialog(Context context) {
         this.context = context.getApplicationContext();
         dialog = new CommonDialog(context, R.layout.dialog_update)
-                .setListenItem(new int[]{R.id.btnNegativeUpdate,R.id.btnPositiveUpdate})
+                .setListenItem(new int[]{R.id.btnNegativeUpdate, R.id.btnPositiveUpdate})
                 .setListener(this);
         title = dialog.findViewById(R.id.tvTitleUpdate);
         content = dialog.findViewById(R.id.tvContentUpdate);
@@ -67,104 +95,104 @@ public class MessageDialog implements CommonDialog.OnAllItemClickListener {
         positiveBtn = dialog.findViewById(R.id.btnPositiveUpdate);
     }
 
-    public static MessageDialog getInstance(Context context){
-        if (null == messageDialog){
+    public static MessageDialog getInstance(Context context) {
+        if (null == messageDialog) {
             messageDialog = new MessageDialog(context);
         }
         return messageDialog;
     }
 
 
-    public MessageDialog setTitle(String title){
+    public MessageDialog setTitle(String title) {
         this.titleText = title;
         return this;
     }
 
-    public MessageDialog setTitleSize(float titleSize){
+    public MessageDialog setTitleSize(float titleSize) {
         this.titleSize = titleSize;
         return this;
     }
 
-    public MessageDialog setTitleColor(int color){
+    public MessageDialog setTitleColor(int color) {
         this.titleColor = color;
         return this;
     }
 
-    public MessageDialog setContent(String content){
+    public MessageDialog setContent(String content) {
         this.contentText = content;
         return this;
     }
 
-    public MessageDialog setContentSize(float contentSize){
+    public MessageDialog setContentSize(float contentSize) {
         this.contentSize = contentSize;
         return this;
     }
 
-    public MessageDialog setContentColor(int color){
+    public MessageDialog setContentColor(int color) {
         this.contentColor = color;
         return this;
     }
 
-    public MessageDialog setPositionBtnResId(@IdRes int resId){
+    public MessageDialog setPositionBtnResId(@IdRes int resId) {
         this.positionBtnResId = resId;
         return this;
     }
 
-    public MessageDialog setPositionBtnBgColor(int positionBtnBgColor){
+    public MessageDialog setPositionBtnBgColor(int positionBtnBgColor) {
         this.positionBtnBgColor = positionBtnBgColor;
         return this;
     }
 
-    public MessageDialog setPositionText(String positionBtnText){
+    public MessageDialog setPositionText(String positionBtnText) {
         this.positionBtnText = positionBtnText;
         return this;
     }
 
-    public MessageDialog setPositionBtnTextColor(int positionBtnTextColor){
+    public MessageDialog setPositionBtnTextColor(int positionBtnTextColor) {
         this.positionBtnBgColor = positionBtnTextColor;
         return this;
     }
 
-    public MessageDialog setPositionBtnTextSize(float spValue){
+    public MessageDialog setPositionBtnTextSize(float spValue) {
         this.positionBtnTextSize = spValue;
         return this;
     }
 
-    public MessageDialog setNegativeBtnResId(@IdRes int negativeBtnResId){
+    public MessageDialog setNegativeBtnResId(@IdRes int negativeBtnResId) {
         this.negativeBtnResId = negativeBtnResId;
         return this;
     }
 
-    public MessageDialog setNegativeBtnBgColor(int negativeBtnBgColor){
+    public MessageDialog setNegativeBtnBgColor(int negativeBtnBgColor) {
         this.negativeBtnBgColor = negativeBtnBgColor;
         return this;
     }
 
-    public MessageDialog setNegativeBtnTextColor(int negativeBtnTextColor){
+    public MessageDialog setNegativeBtnTextColor(int negativeBtnTextColor) {
         this.negativeBtnTextColor = negativeBtnTextColor;
         return this;
     }
 
-    public MessageDialog setNegativeBtnText(String text){
+    public MessageDialog setNegativeBtnText(String text) {
         this.negativeBtnText = text;
         return this;
     }
 
-    public MessageDialog setNegativeBtnTextSize(float spValue){
+    public MessageDialog setNegativeBtnTextSize(float spValue) {
         this.negativeBtnTextSize = spValue;
         return this;
     }
 
-    public MessageDialog setGravity(Integer gravity){
+    public MessageDialog setGravity(Integer gravity) {
         dialog.setGravity(gravity);
         return this;
     }
 
-    public MessageDialog build(){
+    public MessageDialog build() {
         //标题设置
         title.setText(titleText);
         title.setTextColor(titleColor);
-        title.setTextSize(TypedValue.COMPLEX_UNIT_PX,sp2px(titleSize));
+        title.setTextSize(TypedValue.COMPLEX_UNIT_PX, sp2px(titleSize));
 
         //内容设置
 
@@ -177,10 +205,10 @@ public class MessageDialog implements CommonDialog.OnAllItemClickListener {
         negativeBtn.setText(negativeBtnText);
         negativeBtn.setTextSize(negativeBtnTextSize);
         negativeBtn.setTextColor(negativeBtnTextColor);
-        if (negativeBtnBgColor != 0){
+        if (negativeBtnBgColor != 0) {
             //如果设置了取消按钮的背景颜色
             negativeBtn.setBackgroundColor(negativeBtnBgColor);
-        }else {
+        } else {
             negativeBtn.setBackgroundResource(negativeBtnResId);
         }
 
@@ -188,10 +216,10 @@ public class MessageDialog implements CommonDialog.OnAllItemClickListener {
         positiveBtn.setText(positionBtnText);
         positiveBtn.setTextColor(positionBtnTextColor);
         positiveBtn.setTextSize(TypedValue.COMPLEX_UNIT_PX, sp2px(positionBtnTextSize));
-        if (positionBtnBgColor != 0){
+        if (positionBtnBgColor != 0) {
             //如果设置了确定按钮的背景颜色
             positiveBtn.setBackgroundColor(positionBtnBgColor);
-        }else {
+        } else {
             positiveBtn.setBackgroundResource(positionBtnResId);
         }
         return this;
@@ -202,43 +230,45 @@ public class MessageDialog implements CommonDialog.OnAllItemClickListener {
     public void handleClick(CommonDialog commonDialog, View view) {
         if (view.getId() == R.id.btnNegativeUpdate) {
             if (null != negativeBtnClickListener) {
+                dialog.dismiss();
                 negativeBtnClickListener.onNegativeBtnClick(commonDialog, view);
             }
-        }else if (view.getId() == R.id.btnPositiveUpdate){
-            if (null != positionBtnClickListener){
-                positionBtnClickListener.onPositionBtnClick(commonDialog,view);
+        } else if (view.getId() == R.id.btnPositiveUpdate) {
+            if (null != positionBtnClickListener) {
+                dialog.dismiss();
+                positionBtnClickListener.onPositionBtnClick(commonDialog, view);
             }
         }
     }
 
-    public interface OnPositionBtnClickListener{
-        void onPositionBtnClick(CommonDialog commonDialog,View view);
+    public interface OnPositionBtnClickListener {
+        void onPositionBtnClick(CommonDialog commonDialog, View view);
     }
 
-    public interface OnNegativeBtnClickListener{
-        void onNegativeBtnClick(CommonDialog commonDialog,View view);
+    public interface OnNegativeBtnClickListener {
+        void onNegativeBtnClick(CommonDialog commonDialog, View view);
     }
 
-    public MessageDialog setOnPositionBtnClickListener(OnPositionBtnClickListener listener){
+    public MessageDialog setOnPositionBtnClickListener(OnPositionBtnClickListener listener) {
         this.positionBtnClickListener = listener;
         return this;
     }
 
-    public MessageDialog setOnNegativeBtnClickListener(OnNegativeBtnClickListener listener){
+    public MessageDialog setOnNegativeBtnClickListener(OnNegativeBtnClickListener listener) {
         this.negativeBtnClickListener = listener;
         return this;
     }
 
-    public void show(){
-        if (null == dialog)return;
-        if (!dialog.isShowing()){
+    public void show() {
+        if (null == dialog) return;
+        if (!dialog.isShowing()) {
             dialog.show();
         }
     }
 
-    public void dismiss(){
-        if (null == dialog)return;
-        if (dialog.isShowing()){
+    public void dismiss() {
+        if (null == dialog) return;
+        if (dialog.isShowing()) {
             dialog.dismiss();
         }
     }
