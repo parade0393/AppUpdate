@@ -48,8 +48,6 @@ public class AppUpdate implements MessageDialog.OnPositionBtnClickListener, Mess
     private AppUpdate(Context context){
         this.context = context.getApplicationContext();
         messageDialog = MessageDialog.getInstance(context)
-                .setTitle("这是标题")
-                .setContentColor(Color.parseColor("#ff0000"))
                 .setOnPositionBtnClickListener(this)
                 .setOnNegativeBtnClickListener(this)
                 .build();
