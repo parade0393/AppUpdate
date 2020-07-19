@@ -33,9 +33,8 @@ import java.net.URL;
  */
 public class AppUpdate implements CommonDialog.OnAllItemClickListener {
 
-    private static AppUpdate appUpdate;
-    private Context context;
     private CommonDialog dialog;
+    private Context context;
     private String apk_url;
     private TextView title;
     private TextView content;
@@ -78,8 +77,8 @@ public class AppUpdate implements CommonDialog.OnAllItemClickListener {
     private float negativeBtnTextSize = 13;
 
     public AppUpdate(Context context){
-        this.context = context.getApplicationContext();
-        dialog = new CommonDialog(this.context, R.layout.dialog_update)
+        this.context = context;
+        dialog = new CommonDialog(context, R.layout.dialog_update)
                 .setListenItem(new int[]{R.id.btnNegativeUpdate,R.id.btnPositiveUpdate})
                 .setListener(this);
         title = dialog.findViewById(R.id.tvTitleUpdate);

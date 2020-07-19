@@ -1,5 +1,5 @@
 1. 引入方式 gradle `implementation
-   'com.sanzhi.appupdate:appupdate:1.1.1'`
+   'com.sanzhi.appupdate:appupdate:1.1.2'`
 
 2. 使用方式--不需要申请存储卡权限
 
