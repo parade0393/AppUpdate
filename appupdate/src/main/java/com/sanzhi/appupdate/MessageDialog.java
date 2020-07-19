@@ -1,5 +1,6 @@
 package com.sanzhi.appupdate;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.TypedValue;
@@ -14,8 +15,7 @@ import androidx.annotation.IdRes;
  * description :
  */
 public class MessageDialog implements CommonDialog.OnAllItemClickListener {
-    private static MessageDialog messageDialog;
-    private Context context;
+    private  Context context;
     private CommonDialog dialog;
 
     private TextView title;
@@ -84,8 +84,9 @@ public class MessageDialog implements CommonDialog.OnAllItemClickListener {
     private OnPositionBtnClickListener positionBtnClickListener;
     private OnNegativeBtnClickListener negativeBtnClickListener;
 
-    private MessageDialog(Context context) {
-        this.context = context.getApplicationContext();
+    public MessageDialog(Context activityContext) {
+        this.context = activityContext;
+
         dialog = new CommonDialog(context, R.layout.dialog_update)
                 .setListenItem(new int[]{R.id.btnNegativeUpdate, R.id.btnPositiveUpdate})
                 .setListener(this);
@@ -93,13 +94,6 @@ public class MessageDialog implements CommonDialog.OnAllItemClickListener {
         content = dialog.findViewById(R.id.tvContentUpdate);
         negativeBtn = dialog.findViewById(R.id.btnNegativeUpdate);
         positiveBtn = dialog.findViewById(R.id.btnPositiveUpdate);
-    }
-
-    public static MessageDialog getInstance(Context context) {
-        if (null == messageDialog) {
-            messageDialog = new MessageDialog(context);
-        }
-        return messageDialog;
     }
 
 

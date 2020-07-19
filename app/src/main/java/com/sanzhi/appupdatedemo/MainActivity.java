@@ -2,6 +2,7 @@ package com.sanzhi.appupdatedemo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -23,22 +24,26 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button button;
+    private Button button,buttonDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         button = (Button) findViewById(R.id.button);
+        buttonDialog = (Button) findViewById(R.id.buttonDialog);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MessageDialog.getInstance(MainActivity.this).build()
-                        .show();
+                startActivity(new Intent(MainActivity.this, OtherActivity.class));
             }
         });
-
-
+        buttonDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MessageDialog(MainActivity.this).setTitle("首页").build().show();
+            }
+        });
         checkUpdate();
     }
 
@@ -51,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkUpdate() {
         Log.d("updateDemo","onResume");
-        AppUpdate.getInstance(this)
+        new AppUpdate(this)
                 .setTitle("标题")
                 .setTitleSize(17)
                 .setContentColor(0xffff0000)

@@ -77,22 +77,15 @@ public class AppUpdate implements CommonDialog.OnAllItemClickListener {
     /** 取消按钮文字大小 */
     private float negativeBtnTextSize = 13;
 
-    private AppUpdate(Context context){
+    public AppUpdate(Context context){
         this.context = context.getApplicationContext();
-        dialog = new CommonDialog(context, R.layout.dialog_update)
+        dialog = new CommonDialog(this.context, R.layout.dialog_update)
                 .setListenItem(new int[]{R.id.btnNegativeUpdate,R.id.btnPositiveUpdate})
                 .setListener(this);
         title = dialog.findViewById(R.id.tvTitleUpdate);
         content = dialog.findViewById(R.id.tvContentUpdate);
         negativeBtn = dialog.findViewById(R.id.btnNegativeUpdate);
         positiveBtn = dialog.findViewById(R.id.btnPositiveUpdate);
-    }
-
-    public static AppUpdate getInstance(Context context){
-        if (appUpdate == null){
-            appUpdate = new AppUpdate(context);
-        }
-        return appUpdate;
     }
 
     public AppUpdate setAppId(String appId) {

@@ -1,10 +1,10 @@
 1. 引入方式 gradle `implementation
-   'com.sanzhi.appupdate:appupdate:1.0.8'`
+   'com.sanzhi.appupdate:appupdate:1.1.1'`
 
 2. 使用方式--不需要申请存储卡权限
 
    ```java
-      AppUpdate.getInstance(this)//上下文你
+     new AppUpdate(this)//上下文你
                       .setTitle("标题")//标题
                       .setTitleSize(17)//标题字体大小
                       .setAppId("nfy7qt3618gpuhv2")//appId
@@ -44,12 +44,12 @@
         commonDialog.show();
         ```
       ```java
-      message = MessageDialog.getInstance(context)
+      message = new MessageDialog(context)
                       .setTitle("这是标题")
                       .setContentColor(Color.parseColor("#ff0000"))
                       .setOnPositionBtnClickListener(this)
                       .setOnNegativeBtnClickListener(this)
                       .build();
       message.show()
-      //设置控件样式件上述表格
+      //设置控件样式件上述表格,调用show之前必须调用build
       ```
